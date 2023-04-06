@@ -15,30 +15,28 @@
       </div>
       <div class="h-[calc(100%-98px)] relative overflow-y-scroll block ">
 
-        <div class="pt-0 py-10 px-0 block">
-          <div class="bg-bg-item rounded-[1.875rem] h-[23.75rem] flex items-center overflow-hidden">
+        <div *ngFor="let item of productList;index as ind" class="py-10 px-0 block {{ind==0?'pt-0':''}}">
+          <div [ngStyle]="{background: item.color}"
+            class="rounded-[1.875rem] h-[23.75rem] flex items-center overflow-hidden">
             <img class="block w-full -rotate-[24deg] -ml-4 overflow-clip  filter drop-shadow-filter "
-              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png">
+              src={{item.image}}>
           </div>
           <div class="font-bold mt-[1.625rem] mb-5 mx-0 text-xl leading-[1.5] block font-rubik text-primary-black">
-            Nike Air Zoom Pegasus 36
+            {{item.name}}
 
           </div>
           <div class="text-[13px] leading-[1.8] text-des-color mb-5 block font-rubik ">
-            The iconic Nike Air Zoom Pegasus 36 offers more cooling and mesh that targets breathability across
-            high-heat
-            areas. A slimmer heel collar and tongue reduce bulk, while exposed cables give you a snug fit at higher
-            speeds.
+            {{item.description}}
           </div>
           <div class="flex justify-between items-center">
             <div class="text-lg font-bold block font-rubik text-primary-black">
-              $108.97
+              {{'$'+item.price}}
             </div>
-            <div *ngIf="false"
-              class="cursor-pointer bg-primary-yellow font-bold text-sm box-border w-auto h-[2.875rem] min-w-[2.875rem] rounded-[6.25rem] transition-all ease-ease duration-.25 select-none	whitespace-nowrap	relative flex items-center overflow-hidden">
+            <div *ngIf="isAdd(item.id)" (click)="addItem(item)"
+              class=" hover:bg-opacity-75 cursor-pointer bg-primary-yellow font-bold text-sm box-border w-auto h-[2.875rem] min-w-[2.875rem] rounded-[6.25rem] transition-all ease-ease duration-.25 select-none	whitespace-nowrap	relative flex items-center overflow-hidden">
               <p class="text-sm font-bold select-none font-rubik text-primary-black block ms-4 me-4 "> ADD TO CART</p>
             </div>
-            <div *ngIf="true"
+            <div *ngIf="!isAdd(item.id)"
               class="pointer-events-none w-[2.875rem] cursor-default bg-primary-yellow font-bold text-sm box-border h-[2.875rem] min-w-[2.875rem] rounded-[6.25rem] transition-all ease-ease duration-.25 select-none	whitespace-nowrap	relative overflow-hidden flex items-center">
               <img src="assets/icon/check.png" class="p-3">
             </div>
@@ -56,49 +54,49 @@
       <div class="font-rubik text-primary-black font-bold my-4 mx-0 relative block text-2xl">
         Your Cart
         <span class="float-right font-rubik text-primary-black">
-          $0.00
+          ${{total | number : '.2-2'}}
         </span>
       </div>
       <div class="h-[calc(100%-98px)] relative overflow-y-hidden block ">
-        <div *ngIf="false" class="absolute block">
+        <div *ngIf="cart.length==0" class="absolute block">
           <p class="block my-4 text-sm font-rubik text-primary-black left-0 font-light">Your cart is empty.</p>
         </div>
-        <div>
-          <div class="flex py-5 px-0 ">
-            <div class="flex-shrink flex-grow-0 block basis-0	">
-              <div class="bg-bg-item w-[5.625rem] h-[5.625rem] rounded-perfect mr-[2.125rem]">
+        <div *ngIf="cart.length>0" >
+          <div *ngFor="let item of cart" class="flex py-5 px-0 ">
+            <div class="flex-shrink flex-grow-0 block basis-[0%]	">
+              <div [ngStyle]="{background: item.color}" class=" w-[5.625rem] h-[5.625rem] rounded-perfect mr-[2.125rem]">
                 <div class="block">
                   <img
-                    class="overflow-clip w-[140%] max-w-[140%] block -rotate-[28deg] -translate-y-10 filter drop-shadow-filter"
-                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png">
+                    class="overflow-clip w-[140%] max-w-[140%] block -rotate-[28deg] -translate-y-10 filter drop-shadow-filter -translate-x-[1.25rem]"
+                    src={{item.image}}>
                 </div>
 
               </div>
             </div>
-            <div class="flex-shrink flex-grow block basis-0	">
+            <div class="flex-shrink flex-grow block basis-[0%]	">
               <div class="leading-[1.5] text-sm font-bold mb-[0.625rem] block font-rubik text-primary-black">
-                Nike Air Zoom Pegasus 36
+                {{item.name}}
               </div>
               <div class="leading-[1.5] text-xl font-bold mb-4 block font-rubik text-primary-black">
-                $108.97
+                {{item.price}}
               </div>
               <div class="flex  items-center justify-start">
-                <div class="flex-shrink flex-grow  basis-0 flex items-center justify-start">
-                  <div
+                <div class="flex-shrink flex-grow  basis-[0%] flex items-center justify-start">
+                  <div (click)="minus(item.id)"
                     class="cursor-pointer w-7 h-7 leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
                     -
                   </div>
                   <div class="text-sm mx-2 my-0 w-5 text-center block">
-                    1
+                    {{item.amount}}
                   </div>
-                  <div
+                  <div (click)="plus(item.id)"
                     class="cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
                     +
                   </div>
                 </div>
-                <div
+                <div (click)="remove(item.id)"
                   class="cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-primary-yellow text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
-                <img class="w-4 h-4 overflow-clip cursor-pointer select-none" src="assets/icon/trash.png">
+                  <img class="w-4 h-4 overflow-clip cursor-pointer select-none" src="assets/icon/trash.png">
                 </div>
               </div>
             </div>
