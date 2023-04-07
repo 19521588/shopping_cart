@@ -9,15 +9,22 @@ import { CartItem } from 'src/model/cartItemModel';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  ngOnInit() {
-    this.totalValue();
-  }
+ 
 
   title = 'shopping_cart';
   total = 0;
   public productList: Product[] = products;
   public cart: CartItem[] = [];
   public temp: CartItem = {};
+
+  ngOnInit() {
+    if(JSON.parse(this.getData('cartItems')!)){
+      this.cart=JSON.parse(this.getData('cartItems')!)
+    }
+      this.totalValue();
+  }
+
+
 
   initTemp(item: Product) {
     this.temp.id = item.id;
@@ -53,13 +60,14 @@ export class AppComponent implements OnInit {
 
   totalValue() {
     this.total = this.cart.reduce((a, b) => a + b.price! * b.amount!, 0);
+    this.saveData('cartItems',this.cart)
   }
 
   plus(id: any) {
     var index = this.cart.findIndex((x) => x.id === id);
     this.cart[index].amount! += 1;
     this.totalValue();
-  }
+  } 
 
   minus(id: any) {
     var index = this.cart.findIndex((x) => x.id === id);
@@ -78,4 +86,13 @@ export class AppComponent implements OnInit {
 
     this.totalValue();
   }
+
+  public saveData(key: string, value: CartItem[]) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  public getData(key: string) {
+    return localStorage.getItem(key)
+  }
+
 }
