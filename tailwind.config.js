@@ -34,13 +34,12 @@ module.exports = {
         maxx: "300%",
       },
       animation: {
-        "up-down": "up_down 8s ease-in-out infinite alternate",
+        "up-down": "up_down 10s ease-in-out infinite alternate",
       },
       keyframes: {
         up_down: {
-          "0%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(10px)" },
-          "100%": { transform: "translateY(0)" },
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(10%)" },
         },
       },
       boxShadow: {

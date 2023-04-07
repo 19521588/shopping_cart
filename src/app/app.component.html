@@ -1,5 +1,5 @@
 <div
-  class=" block fixed w-maxx h-full bg-primary-yellow -translate-x-1/2	-skew-y-8 z-temp top-1/2 rounded-perfect left-1/2 ">
+  class="animate-up-down block fixed w-maxx h-full  bg-primary-yellow rounded-perfect top-[40%] -left-[25%] -translate-x-1/2	-skew-y-[15deg] z-temp">
 </div>
 <div class="w-full h-full">
   <div class="max-w-[47.5rem] mx-auto my-0 h-screen flex items-center justify-between relative flex-wrap px-0 py-5 ">
@@ -13,7 +13,7 @@
       <div class="font-rubik text-primary-black font-bold my-4 mx-0 relative block text-2xl">
         Our Products
       </div>
-      <div class="h-[calc(100%-98px)] relative overflow-y-scroll block ">
+      <div class="h-[calc(100%-98px)] relative overflow-y-scroll  block  scrollbar-hide">
 
         <div *ngFor="let item of productList;index as ind" class="py-10 px-0 block {{ind==0?'pt-0':''}}">
           <div [ngStyle]="{background: item.color}"
@@ -63,7 +63,7 @@
         </div>
         <div *ngIf="cart.length>0" >
           <div *ngFor="let item of cart" class="flex py-5 px-0 ">
-            <div class="flex-shrink flex-grow-0 block basis-[0%]	">
+            <div class="flex-shrink flex-grow-0 block basis-[0%]	" [@openClose]="animationState">
               <div [ngStyle]="{background: item.color}" class=" w-[5.625rem] h-[5.625rem] rounded-perfect mr-[2.125rem]">
                 <div class="block">
                   <img
@@ -82,20 +82,20 @@
               </div>
               <div class="flex  items-center justify-start">
                 <div class="flex-shrink flex-grow  basis-[0%] flex items-center justify-start">
-                  <div (click)="minus(item.id)"
-                    class="cursor-pointer w-7 h-7 leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
+                  <div (click)="minus(item.id)" 
+                    class="hover:bg-gray-300 cursor-pointer w-7 h-7 leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
                     -
                   </div>
                   <div class="text-sm mx-2 my-0 w-5 text-center block">
                     {{item.amount}}
                   </div>
                   <div (click)="plus(item.id)"
-                    class="cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
+                    class="hover:bg-gray-300 cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-bg-bt text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
                     +
                   </div>
                 </div>
-                <div (click)="remove(item.id)"
-                  class="cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-primary-yellow text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
+                <div (click)="remove(item.id)" 
+                  class="hover:opacity-70 cursor-pointer w-7 h-7  leading-7 rounded-perfect bg-primary-yellow text-base font-bold flex justify-center items-center select-none transition-all duration-.2 ease-ease delay-0">
                   <img class="w-4 h-4 overflow-clip cursor-pointer select-none" src="assets/icon/trash.png">
                 </div>
               </div>
